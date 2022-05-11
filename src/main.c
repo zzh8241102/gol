@@ -80,9 +80,9 @@ int main(void)
          /*renderer --> An init render by parser, then listen for the click on the start button && end button also can acclrt(NOTICE THE PROIR OF PARSER OR LISTEN) -> STOP is used to end the game quickly
             */
 
-            SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+            SDL_SetRenderDrawColor(renderer, 190,190,190,255);
             SDL_RenderClear(renderer);
-            renderer_game_background(renderer,&GRID_COLOR_SLOW,game,WINDOW_WIDTH/SMALL_SLICE,GRID_HEIGHT/SMALL_SLICE,SMALL_SLICE);
+            renderer_game_background(renderer,&GRID_COLOR_SLOW,game,WINDOW_WIDTH/SMALL_SLICE,GRID_HEIGHT/SMALL_SLICE,SMALL_SLICE);// 加到结构体
             SDL_RenderPresent(renderer);
     }
     SDL_DestroyWindow(window);

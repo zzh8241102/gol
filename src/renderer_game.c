@@ -14,12 +14,17 @@ void renderer_game(SDL_Renderer *renderer,int grid_width,int grid_height,int *gr
 // To do: renderer background of gof due to the file input
 int renderer_game_background(SDL_Renderer *renderer,SDL_Color *color,game_state game,int grid_width,int grid_height,int slice)
 {
+    // slice stands for the size of the grid
     
     SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, SDL_ALPHA_OPAQUE);
     // Draw vertical lines 
-    for(int i=0;i<slice;i++){
-        printf("%d\n",i*grid_width);
-        SDL_RenderDrawLine(renderer,i*grid_width,0,i*grid_width,GRID_HEIGHT);
+    for(int i=1;i<grid_width;i++){
+        SDL_RenderDrawLine(renderer,i*slice,0,i*slice,GRID_HEIGHT);
+    }
+    // Draw hor lines
+
+    for(int i=1;i<grid_height;i++){
+        SDL_RenderDrawLine(renderer,0,i*slice,WINDOW_WIDTH,i*slice);
     }
 
 }
