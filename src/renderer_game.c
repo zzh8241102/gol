@@ -26,7 +26,7 @@ void renderer_game_background(SDL_Renderer *renderer,SDL_Color *color,game_state
     for(int i=1;i<=grid_height;i++){
         SDL_RenderDrawLine(renderer,0,i*slice,WINDOW_WIDTH,i*slice);
     }
-    SDL_Delay(1000/60);
+    
 
 }
 
@@ -35,5 +35,6 @@ renderer or not is controled by game state
 */
  
 void renderer_next_layer(SDL_Renderer *renderer,int **grid_matrix){
+    
 
 }

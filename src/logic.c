@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 // Given by parser(file)/click event to listen to the grid -> calculate the current_ ->renderer the current
 
 // calculate the current upper layer
@@ -11,20 +12,22 @@
 // for(i=0;i<m;i++)
 //     array[i] = (int *)malloc(n *sizeof(int));
 // To do: with side effects, modify the array parsed by the parser
-int** calculate_the_next_layer(int **grid_matrix, int grid_width, int grid_height)
+int **calculate_the_next_layer(int **grid_matrix, int grid_width, int grid_height)
 {
 
     // int nx[grid_height][grid_height];
     int **nx;
-    nx = (int **)malloc(grid_height*sizeof(int *));
-    for(int m=0;m<grid_height;m++){
-        nx[m] = (int *)malloc(grid_width*sizeof(int));
+    nx = (int **)malloc(grid_height * sizeof(int *));
+    for (int m = 0; m < grid_height; m++)
+    {
+        nx[m] = (int *)malloc(grid_width * sizeof(int));
     }
     for (int i = 0; i < 35; i++)
     {
         for (int j = 0; j < 50; j++)
         {
-            *(*(grid_matrix+i+j)) = 0;
+            *(*(nx + i) + j) = 0;
+            
         }
     }
     int dr[8][2] = {{-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}};
@@ -50,11 +53,11 @@ int** calculate_the_next_layer(int **grid_matrix, int grid_width, int grid_heigh
 
                     continue;
                 }
-                if (*(*(grid_matrix + x + y)) == 1 && *(*(grid_matrix + x + y)) == *(*(grid_matrix + dx + dy)))
+                if (*(*(grid_matrix + x) + y) == 1 && *(*(grid_matrix + x)+ y) == *(*(grid_matrix + dx )+ dy))
                 {
                     life_counter++;
                 }
-                if (*(*(grid_matrix + x + y)) == 0 && *(*(grid_matrix + dx + dy)) == 1)
+                if (*(*(grid_matrix + x) + y) == 0 && *(*(grid_matrix + dx) + dy) == 1)
                 {
 
                     reproduct_counter++;
@@ -63,11 +66,11 @@ int** calculate_the_next_layer(int **grid_matrix, int grid_width, int grid_heigh
 
             if (life_counter == 2 || life_counter == 3)
             {
-                *(*(grid_matrix+x+y)) = 1;
+                *(*(nx + x) + y) = 1;
             }
             if (reproduct_counter == 3)
             {
-                *(*(grid_matrix+x+y)) = 1;
+                *(*(nx + x) + y) = 1;
             }
             life_counter = 0;
             reproduct_counter = 0;

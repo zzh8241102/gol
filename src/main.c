@@ -5,6 +5,7 @@
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include "state.h"
 #include "renderer_game.h"
+#include "logic.h"
 
 // Advanced ->interactive
 // Advanced ->playback
@@ -57,7 +58,26 @@ int main(void)
     game_state game;
 
     game.g_state = STATE_RUN;
+        int **nx;
+        nx = (int **)malloc(35 * sizeof(int *));
+        for (int m = 0; m < 35; m++)
+        {
+            nx[m] = (int *)malloc(50 * sizeof(int));
+        }
+        for (int i = 0; i < 35; i++)
+        {
+        for (int j = 0; j < 50; j++)
+        {
+            *(*(nx+i)+j) = 0;
+        }
+        *(*(nx+1)+49) = 1;
+        *(*(nx+2)+49) = 1;
+        *(*(nx+3)+49) = 1;
+        *(*(nx+1)+48) = 1;
+        }
 
+    int **cl = NULL;
+    int cnt_cl = 0;
     // Event loop
     SDL_Event event;
     while (game.g_state != STATE_QUIT)
@@ -78,6 +98,36 @@ int main(void)
         SDL_RenderClear(renderer);
         renderer_game_background(renderer, &GRID_COLOR_SLOW, game, WINDOW_WIDTH / SMALL_SLICE, GRID_HEIGHT / SMALL_SLICE, SMALL_SLICE); // 加到结构体
         SDL_RenderPresent(renderer);
+        nx = calculate_the_next_layer(nx,50,35);
+        cnt_cl++;
+        if(cnt_cl%2!=0){
+        cl = nx;
+        }
+        // for(int i=0;i<35;i++){
+        //     for(int j=0;j<50;j++){
+        //         printf("%d",*(*(nx+i)+j));
+        //         if(j+1==50){
+        //             printf("\n");
+        //         }
+                
+        //     }
+        // }
+        //    break;
+        // renderer 
+        
+        if(cnt_cl%2==0){
+        for(int i=0;i<35;i++)
+            free(cl[i]);
+        free(cl);
+        cl =NULL;
+        }
+        
+        SDL_Delay(1000/60);      
+    }
+    if(!cl){
+        for(int i=0;i<35;i++)
+            free(cl[i]);
+        free(cl);
     }
     SDL_DestroyWindow(window);
     SDL_Quit();

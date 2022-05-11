@@ -15,7 +15,6 @@
 #define STATE_RUN 1
 
 
-
                                     
 // fake data to test before implement io operation
 
@@ -29,10 +28,8 @@ typedef struct _state
     int grid_height;
     int slice_size; // size of grid
     int generation;
-
+    int ** grid;
 
 } game_state;
-
-
 
 #endif
