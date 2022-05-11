@@ -6,6 +6,7 @@
 
 // void calculate_the_next_layer(int **grid_matrix,int grid_width,int grid_height){
 
-void calculate_next_generation(){
-    
+int** calculate_next_generation(){
+    // remeber to catch size error
+
 }

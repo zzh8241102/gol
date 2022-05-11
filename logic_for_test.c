@@ -19,11 +19,17 @@ int main()
         }
     }
 
-    grid_matrix[1][0] =1;
-    grid_matrix[1][1] =1;
     grid_matrix[2][0] =1;
-    grid_matrix[3][0] =1;
+    grid_matrix[2][2] =1;
+    grid_matrix[1][2] =1;
+    grid_matrix[3][2] =1;
+    grid_matrix[3][1] =1;
+   
 
+    grid_matrix[34][49] =1;
+    grid_matrix[34][48] =1;
+    grid_matrix[34][47] =1;
+ 
 
     printf("\n\n");
 
@@ -49,9 +55,14 @@ int main()
                 
                 dx = x + dr[i][0];
                 dy = y + dr[i][1];
-                if (dx < 0 || dy < 0 || dx > grid_height || dx > grid_width || dy > grid_width || dy > grid_height)
+                if (dx < 0 || dy < 0 )
                 {
                     continue;
+                }
+                if(dy>=grid_width || dx>=grid_height){
+
+                    continue;
+
                 }
                 if (grid_matrix[x][y] == 1 && grid_matrix[x][y] == grid_matrix[dx][dy])
                 {
@@ -59,33 +70,30 @@ int main()
                 }
                 if (grid_matrix[x][y] == 0 && grid_matrix[dx][dy] == 1)
                 {
+
+                    printf(" x:%d y:%d dx:%d dy:%d\n",x,y,dx,dy);
                     reproduct_counter++;
                 }
             }
             if (life_counter == 2 || life_counter == 3)
             {
                 nx[x][y] = 1;
-                
+                printf(" (%d,%d)\n",x,y);
+
+
             }
             if (reproduct_counter == 3)
             {
                 nx[x][y] = 1;
+                printf("复活：\n");
+                printf(" (%d,%d)\n",x,y);
                 
             }
             life_counter = 0;
             reproduct_counter = 0;
         }
     }
-    for (int k = 0; k < grid_height; k++)
-    {
-        for (int l = 0; l < grid_width; l++)
-        {
-            if (nx[k][l] != 1)
-            {
-                nx[k][l] = 0;
-            }
-        }
-    }
+    printf("\n");
 
     for (int i = 0; i < 35; i++)
     {
@@ -93,6 +101,7 @@ int main()
         {
             printf("%d", nx[i][j]);
             if(j+1==50){
+                printf(" %d, %d",i,j);
                 printf("\n");
             }
         }
