@@ -6,18 +6,16 @@
 #include "state.h"
 #include "renderer_game.h"
 
-
 // Advanced ->interactive
 // Advanced ->playback
 
-
-SDL_Color GRID_COLOR_SLOW = {.r = 255, 
-                                   .g = 255, 
-                                   .b = 255 };
+SDL_Color GRID_COLOR_SLOW = {.r = 255,
+                             .g = 255,
+                             .b = 255};
 
 SDL_Color GRID_COLOR_QUICK = {.r = 255,
-                                    .g = 187,
-                                    .b = 255};
+                              .g = 187,
+                              .b = 255};
 
 int main(void)
 {
@@ -45,7 +43,7 @@ int main(void)
 
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1,
                                                 SDL_RENDERER_ACCELERATED |
-                                                SDL_RENDERER_PRESENTVSYNC);
+                                                    SDL_RENDERER_PRESENTVSYNC);
     if (renderer == NULL)
     {
         SDL_DestroyWindow(window);
@@ -72,18 +70,14 @@ int main(void)
                 game.g_state = STATE_QUIT;
                 break;
             }
-
-           
-
-
         }
-         /*renderer --> An init render by parser, then listen for the click on the start button && end button also can acclrt(NOTICE THE PROIR OF PARSER OR LISTEN) -> STOP is used to end the game quickly
-            */
+        /*renderer --> An init render by parser, then listen for the click on the start button && end button also can acclrt(NOTICE THE PROIR OF PARSER OR LISTEN) -> STOP is used to end the game quickly
+         */
 
-            SDL_SetRenderDrawColor(renderer, 190,190,190,255);
-            SDL_RenderClear(renderer);
-            renderer_game_background(renderer,&GRID_COLOR_SLOW,game,WINDOW_WIDTH/SMALL_SLICE,GRID_HEIGHT/SMALL_SLICE,SMALL_SLICE);// 加到结构体
-            SDL_RenderPresent(renderer);
+        SDL_SetRenderDrawColor(renderer, 190, 190, 190, 255);
+        SDL_RenderClear(renderer);
+        renderer_game_background(renderer, &GRID_COLOR_SLOW, game, WINDOW_WIDTH / SMALL_SLICE, GRID_HEIGHT / SMALL_SLICE, SMALL_SLICE); // 加到结构体
+        SDL_RenderPresent(renderer);
     }
     SDL_DestroyWindow(window);
     SDL_Quit();

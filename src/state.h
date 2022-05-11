@@ -27,6 +27,9 @@ typedef struct _state
     int g_state;
     int grid_width;
     int grid_height;
+    int slice_size; // size of grid
+    int generation;
+
 
 } game_state;
 

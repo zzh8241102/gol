@@ -12,7 +12,7 @@ void renderer_game(SDL_Renderer *renderer,int grid_width,int grid_height,int *gr
 }
 
 // To do: renderer background of gof due to the file input
-int renderer_game_background(SDL_Renderer *renderer,SDL_Color *color,game_state game,int grid_width,int grid_height,int slice)
+void renderer_game_background(SDL_Renderer *renderer,SDL_Color *color,game_state game,int grid_width,int grid_height,int slice)
 {
     // slice stands for the size of the grid
     
@@ -23,9 +23,10 @@ int renderer_game_background(SDL_Renderer *renderer,SDL_Color *color,game_state 
     }
     // Draw hor lines
 
-    for(int i=1;i<grid_height;i++){
+    for(int i=1;i<=grid_height;i++){
         SDL_RenderDrawLine(renderer,0,i*slice,WINDOW_WIDTH,i*slice);
     }
+    SDL_Delay(1000/60);
 
 }
 
@@ -33,6 +34,6 @@ int renderer_game_background(SDL_Renderer *renderer,SDL_Color *color,game_state 
 renderer or not is controled by game state
 */
  
-int renderer_next_layer(SDL_Renderer *renderer,int *grid_matrix){
+void renderer_next_layer(SDL_Renderer *renderer,int **grid_matrix){
 
 }
