@@ -22,7 +22,7 @@ $(EXE): $(OBJ)
 	$(cc) $(OBJ)  $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(LINKER_FLAGS)  -o $(BUILD_DIR)$(EXE) 
 
 
-main.o:main.c state.h renderer_game.h
+main.o:main.c state.h renderer_game.h logic.h
 renderer_game.o: renderer_game.c state.h
 clean:
 	rm -f $(OBJ) $(EXE)

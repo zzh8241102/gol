@@ -59,7 +59,6 @@ int **calculate_the_next_layer(int **grid_matrix, int grid_width, int grid_heigh
                 }
                 if (*(*(grid_matrix + x) + y) == 0 && *(*(grid_matrix + dx) + dy) == 1)
                 {
-
                     reproduct_counter++;
                 }
             }

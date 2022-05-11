@@ -18,6 +18,12 @@ SDL_Color GRID_COLOR_QUICK = {.r = 255,
                               .g = 187,
                               .b = 255};
 
+SDL_Color RECT_BLUE = {
+    .r = 0,
+    .g = 238,
+    .b = 238,
+};
+
 int main(void)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -58,23 +64,28 @@ int main(void)
     game_state game;
 
     game.g_state = STATE_RUN;
-        int **nx;
-        nx = (int **)malloc(35 * sizeof(int *));
-        for (int m = 0; m < 35; m++)
-        {
-            nx[m] = (int *)malloc(50 * sizeof(int));
-        }
-        for (int i = 0; i < 35; i++)
-        {
+    int **nx;
+    nx = (int **)malloc(35 * sizeof(int *));
+    for (int m = 0; m < 35; m++)
+    {
+        nx[m] = (int *)malloc(50 * sizeof(int));
+    }
+    for (int i = 0; i < 35; i++)
+    {
         for (int j = 0; j < 50; j++)
         {
-            *(*(nx+i)+j) = 0;
+            *(*(nx + i) + j) = 0;
         }
-        *(*(nx+1)+49) = 1;
-        *(*(nx+2)+49) = 1;
-        *(*(nx+3)+49) = 1;
-        *(*(nx+1)+48) = 1;
-        }
+        *(*(nx + 1) + 25) = 1;
+        *(*(nx + 2) + 25) = 1;
+        *(*(nx + 3) + 25) = 1;
+        *(*(nx + 1) + 24) = 1;
+        *(*(nx + 10) + 32) = 1 ; 
+        *(*(nx + 10)+ 33) = 1 ;
+        *(*(nx + 11)+ 32) = 1 ; 
+
+
+    }
 
     int **cl = NULL;
     int cnt_cl = 0;
@@ -97,38 +108,45 @@ int main(void)
         SDL_SetRenderDrawColor(renderer, 190, 190, 190, 255);
         SDL_RenderClear(renderer);
         renderer_game_background(renderer, &GRID_COLOR_SLOW, game, WINDOW_WIDTH / SMALL_SLICE, GRID_HEIGHT / SMALL_SLICE, SMALL_SLICE); // 加到结构体
-        SDL_RenderPresent(renderer);
-        nx = calculate_the_next_layer(nx,50,35);
-        cnt_cl++;
-        if(cnt_cl%2!=0){
-        cl = nx;
-        }
+        nx = calculate_the_next_layer(nx, 50, 35);
         // for(int i=0;i<35;i++){
         //     for(int j=0;j<50;j++){
         //         printf("%d",*(*(nx+i)+j));
         //         if(j+1==50){
         //             printf("\n");
         //         }
-                
+
         //     }
         // }
         //    break;
-        // renderer 
-        
-        if(cnt_cl%2==0){
-        for(int i=0;i<35;i++)
-            free(cl[i]);
-        free(cl);
-        cl =NULL;
+        // renderer
+        for(int i=0;i<30;i++){
+            SDL_Delay(1000/60);
         }
-        
-        SDL_Delay(1000/60);      
+        renderer_next_layer(renderer,nx,50,35,SMALL_SLICE);
+        SDL_RenderPresent(renderer);
+        cnt_cl++;
+         if (cnt_cl % 2 != 0)
+        {
+            cl = nx;
+        }
+        else if (cnt_cl % 2 == 0)
+        {
+            for (int i = 0; i < 35; i++)
+                free(cl[i]);
+            free(cl);
+            cl = NULL;
+        }
+
+        SDL_Delay(1000/60);
+
     }
-    if(!cl){
-        for(int i=0;i<35;i++)
-            free(cl[i]);
-        free(cl);
-    }
+    // if (!cl)
+    // {
+    //     for (int i = 0; i < 35; i++)
+    //         free(cl[i]);
+    //     free(cl);
+    // }
     SDL_DestroyWindow(window);
     SDL_Quit();
     return 0;
