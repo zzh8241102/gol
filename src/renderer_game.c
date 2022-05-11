@@ -41,16 +41,14 @@ void renderer_next_layer(SDL_Renderer *renderer, int **grid_matrix, int grid_wid
         {
             if (*(*(grid_matrix + i) + j) == 1)
             {   
-                SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+                SDL_SetRenderDrawColor(renderer, 0, 238, 238, SDL_ALPHA_OPAQUE);
                 SDL_Rect fillRect = {.h = slice,
                                      .w = slice,
                                      .y = i * slice,
                                      .x = j * slice};
-                printf("(%d,%d)\n\n",i * slice,j * slice);
 
                 SDL_RenderFillRect(renderer, &fillRect);
                 // rectangleRGBA(renderer,(i) * slice,(j-1)*slice,(i+1) * slice,j*slice,0,238,238,0);
-                
             }
         }
         
