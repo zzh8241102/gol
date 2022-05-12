@@ -54,3 +54,4 @@ dkms.conf
 #cfg for editor
 .vscode
 
+./thread_archive.c
