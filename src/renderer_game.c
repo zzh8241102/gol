@@ -10,7 +10,7 @@
 
 
 // To do: renderer background of gof due to the file input
-void renderer_game_background(SDL_Renderer *renderer, SDL_Color *color, game_state game, int grid_width, int grid_height, int slice)
+void renderer_game_background(SDL_Renderer *renderer, SDL_Color *color, game_state *game, int grid_width, int grid_height, int slice)
 {
     // slice stands for the size of the grid
     SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, SDL_ALPHA_OPAQUE);
@@ -32,7 +32,7 @@ void renderer_game_background(SDL_Renderer *renderer, SDL_Color *color, game_sta
 renderer or not is controled by game state
 */
 
-void renderer_next_layer(SDL_Renderer *renderer, int **grid_matrix, int grid_width, int grid_height, int slice,game_state game)
+void renderer_next_layer(SDL_Renderer *renderer, int **grid_matrix, int grid_width, int grid_height, int slice,game_state *game)
 {      
     for (int i = 0; i < grid_height; i++)
     {
@@ -55,7 +55,7 @@ void renderer_next_layer(SDL_Renderer *renderer, int **grid_matrix, int grid_wid
     }
 }
 
-void renderer_game(int **grid_matrix,SDL_Renderer *renderer, SDL_Color *color, game_state game,int grid_width, int grid_height, int slice){
+void renderer_game(int **grid_matrix,SDL_Renderer *renderer, SDL_Color *color, game_state *game,int grid_width, int grid_height, int slice){
     renderer_game_background(renderer,color,game,grid_width,grid_height,slice);
     renderer_next_layer(renderer,grid_matrix,grid_width,grid_height,slice,game);
 }

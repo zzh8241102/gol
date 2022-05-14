@@ -10,19 +10,6 @@
 
 // Advanced ->interactive
 // Advanced ->playback
-SDL_Color GRID_COLOR_SLOW = {.r = 255,
-                             .g = 255,
-                             .b = 255};
-
-SDL_Color GRID_COLOR_QUICK = {.r = 255,
-                              .g = 187,
-                              .b = 255};
-
-SDL_Color RECT_BLUE = {
-    .r = 0,
-    .g = 238,
-    .b = 238,
-};
 
 int main(void)
 {
@@ -62,19 +49,19 @@ int main(void)
     // To_be_M
 
     game_state game;
-
     game.g_state = STATE_RUN;
     game.grid_height = 35;
     game.grid_width = 50;
+    game.game_pace = 20;
     int **nx;
-    nx = (int **)malloc(35 * sizeof(int *));
-    for (int m = 0; m < 35; m++)
+    nx = (int **)malloc(game.grid_height * sizeof(int *));
+    for (int m = 0; m < game.grid_height; m++)
     {
-        nx[m] = (int *)malloc(50 * sizeof(int));
+        nx[m] = (int *)malloc(game.grid_width * sizeof(int));
     }
-    for (int i = 0; i < 35; i++)
+    for (int i = 0; i < game.grid_height; i++)
     {
-        for (int j = 0; j < 50; j++)
+        for (int j = 0; j < game.grid_width; j++)
         {
             *(*(nx + i) + j) = 0;
         }
@@ -117,11 +104,15 @@ int main(void)
         *(*(nx + 19) + 32) = 1;
         *(*(nx + 8) + 7) = 1;
         *(*(nx + 3) + 7) = 1;
-        *(*(nx + 3)+ 6) = 1;
+        *(*(nx + 3) + 6) = 1;
         *(*(nx + 3) + 8) = 1;
         *(*(nx + 5) + 7) = 1;
         *(*(nx + 4) + 6) = 1;
-
+        *(*(nx + 21) + 21) = 1;
+        *(*(nx + 22) + 22) = 1;
+        *(*(nx + 22) + 23) = 1;
+        *(*(nx + 21) + 23) = 1;
+        *(*(nx + 20) + 23) = 1;
     }
 
     int **cl = NULL;
@@ -148,12 +139,10 @@ int main(void)
 
         /*renderer --> An init render by parser, then listen for the click on the start button && end button also can acclrt(NOTICE THE PROIR OF PARSER OR LISTEN) -> STOP is used to end the game quickly
          */
-        SDL_SetRenderDrawColor(renderer, 190, 190, 190, 255);
+        SDL_SetRenderDrawColor(renderer, 119, 136, 153, 255);
         SDL_RenderClear(renderer);
-        // renderer_game_background(renderer, &GRID_COLOR_SLOW, game, WINDOW_WIDTH / SMALL_SLICE, GRID_HEIGHT / SMALL_SLICE, SMALL_SLICE); // 加到结构体 // renderer once
-        nx = calculate_the_next_layer(nx, 50, 35);
-        // renderer_next_layer(renderer,nx,50,35,SMALL_SLICE);
-        renderer_game(nx, renderer, &GRID_COLOR_SLOW, game, 50, 35, 20);
+        nx = calculate_the_next_layer(nx, game.grid_width, game.grid_height);
+        renderer_game(nx, renderer, &GRID_COLOR_SLOW, &game, game.grid_width, game.grid_height, game.game_pace);
         SDL_RenderPresent(renderer);
         cnt_cl++;
         if (cnt_cl % 2 != 0)
@@ -162,23 +151,24 @@ int main(void)
         }
         else if (cnt_cl % 2 == 0)
         {
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 35; i++)
                 free(cl[i]);
             free(cl);
             cl = NULL;
         }
-        for(int i=0;i<100;i++){
-        SDL_Delay(SCREEN_REFRESH_INTERVAL);
-        SDL_Event event;
-        while (SDL_PollEvent(&event))
-        {
-            switch (event.type)
+        for (int i = 0; i < game.game_pace; i++)
+        { // 100 stands for game speed
+            SDL_Delay(SCREEN_REFRESH_INTERVAL);
+            SDL_Event event;
+            while (SDL_PollEvent(&event))
             {
-            case SDL_QUIT:
-                game.g_state = STATE_QUIT;
-                break;
+                switch (event.type)
+                {
+                case SDL_QUIT:
+                    game.g_state = STATE_QUIT;
+                    break;
+                }
             }
-        }
         }
     }
     // if (!cl)

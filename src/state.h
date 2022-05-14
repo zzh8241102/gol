@@ -14,12 +14,9 @@
 #define STATE_QUIT 0
 #define STATE_RUN 1
 
-
-                                    
 // fake data to test before implement io operation
 
 // The number of grid --> backgroud
-
 
 typedef struct _state
 {
@@ -28,8 +25,26 @@ typedef struct _state
     int grid_height;
     int slice_size; // size of grid
     int generation;
-    int ** grid;
+    int **grid;
+    int terminator;
+    int game_pace;
 
 } game_state;
+
+SDL_Color GRID_COLOR_SLOW = {.r = 255,
+                             .g = 255,
+                             .b = 255};
+
+SDL_Color GRID_COLOR_QUICK = {.r = 255,
+                              .g = 187,
+                              .b = 255};
+
+SDL_Color RECT_BLUE = {
+    .r = 0,
+    .g = 238,
+    .b = 238,
+};
+
+
 
 #endif
