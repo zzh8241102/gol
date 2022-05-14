@@ -128,7 +128,6 @@ int main(void)
     int **cl = NULL;
     int cnt_cl = 0;
     // Event loop
-
     SDL_DisplayMode displayMode;
     SDL_GetWindowDisplayMode(window, &displayMode);
     uint16_t SCREEN_REFRESH_INTERVAL = (uint16_t)(1000.0 / displayMode.refresh_rate - 1);
@@ -153,7 +152,7 @@ int main(void)
                     break;
                 case SDL_SCANCODE_S:
                 case SDL_SCANCODE_DOWN:
-                     game.g_state = STATE_RUN;
+                     game.g_state = STATE_ITERATE;
                     break;
                 }
                 break;
@@ -175,11 +174,14 @@ int main(void)
             }
             else if (cnt_cl % 2 == 0)
             {
-                for (int i = 0; i < 35; i++)
+                for (int i = 0; i < game.grid_height; i++)
                     free(cl[i]);
                 free(cl);
                 cl = NULL;
             }
+        }
+        if(game.g_state == STATE_ITERATE){
+            renderer_game(nx, renderer, &GRID_COLOR_SLOW, &game, game.grid_width, game.grid_height, game.slice_size);
         }
         if(game.g_state!= STATE_START_TO_RENDERER && game.g_state!=STATE_ITERATE){
             renderer_game_background(renderer,&GRID_COLOR_SLOW,&game,game.grid_width,game.grid_height,game.slice_size);
@@ -187,7 +189,7 @@ int main(void)
         SDL_RenderPresent(renderer);
 
         for (int i = 0; i < game.game_pace; i++)
-        { // 100 stands for game speed
+        { 
             SDL_Delay(SCREEN_REFRESH_INTERVAL);
             SDL_Event event;
         while (SDL_PollEvent(&event))
@@ -207,7 +209,7 @@ int main(void)
                 
                 case SDL_SCANCODE_S:
                 case SDL_SCANCODE_DOWN:
-                     game.g_state = STATE_RUN;
+                     game.g_state = STATE_ITERATE;
                 break;
                 }
                 break;
