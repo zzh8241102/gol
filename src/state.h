@@ -8,11 +8,16 @@
 #define SMALL_SLICE 20
 #define BIGGER_SLICE 10
 
+
 // Small size /20
 // Bigger size /10
 
 #define STATE_QUIT 0
 #define STATE_RUN 1
+#define STATE_START_TO_RENDERER 2
+#define STATE_TO_RENDERER_BG 3
+#define STATE_ITERATE 4
+
 
 // fake data to test before implement io operation
 
@@ -31,19 +36,6 @@ typedef struct _state
 
 } game_state;
 
-SDL_Color GRID_COLOR_SLOW = {.r = 255,
-                             .g = 255,
-                             .b = 255};
-
-SDL_Color GRID_COLOR_QUICK = {.r = 255,
-                              .g = 187,
-                              .b = 255};
-
-SDL_Color RECT_BLUE = {
-    .r = 0,
-    .g = 238,
-    .b = 238,
-};
 
 
 

@@ -47,11 +47,9 @@ void renderer_next_layer(SDL_Renderer *renderer, int **grid_matrix, int grid_wid
                                      .x = j * slice};
 
                 SDL_RenderFillRect(renderer, &fillRect);
-                // rectangleRGBA(renderer,(i) * slice,(j-1)*slice,(i+1) * slice,j*slice,0,238,238,0);
+             
             }
         }
-        
-        
     }
 }
 

@@ -10,6 +10,7 @@
 
 // Advanced ->interactive
 // Advanced ->playback
+// single step
 
 int main(void)
 {
@@ -53,6 +54,15 @@ int main(void)
     game.grid_height = 35;
     game.grid_width = 50;
     game.game_pace = 20;
+    game.slice_size =20;
+    SDL_Color GRID_COLOR_SLOW = {.r = 255,
+                                 .g = 255,
+                                 .b = 255};
+
+    SDL_Color GRID_COLOR_QUICK = {.r = 255,
+                                  .g = 187,
+                                  .b = 255};
+
     int **nx;
     nx = (int **)malloc(game.grid_height * sizeof(int *));
     for (int m = 0; m < game.grid_height; m++)
@@ -134,41 +144,75 @@ int main(void)
             case SDL_QUIT:
                 game.g_state = STATE_QUIT;
                 break;
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.scancode)
+                {
+                case SDL_SCANCODE_W:
+                case SDL_SCANCODE_UP:
+                     game.g_state = STATE_START_TO_RENDERER;
+                    break;
+                case SDL_SCANCODE_S:
+                case SDL_SCANCODE_DOWN:
+                     game.g_state = STATE_RUN;
+                    break;
+                }
+                break;
+        
             }
         }
-
         /*renderer --> An init render by parser, then listen for the click on the start button && end button also can acclrt(NOTICE THE PROIR OF PARSER OR LISTEN) -> STOP is used to end the game quickly
          */
         SDL_SetRenderDrawColor(renderer, 119, 136, 153, 255);
         SDL_RenderClear(renderer);
-        nx = calculate_the_next_layer(nx, game.grid_width, game.grid_height);
-        renderer_game(nx, renderer, &GRID_COLOR_SLOW, &game, game.grid_width, game.grid_height, game.game_pace);
+        if (game.g_state == STATE_START_TO_RENDERER)
+        {
+            nx = calculate_the_next_layer(nx, game.grid_width, game.grid_height);
+            renderer_game(nx, renderer, &GRID_COLOR_SLOW, &game, game.grid_width, game.grid_height, game.slice_size);
+            cnt_cl++;
+            if (cnt_cl % 2 != 0)
+            {
+                cl = nx;
+            }
+            else if (cnt_cl % 2 == 0)
+            {
+                for (int i = 0; i < 35; i++)
+                    free(cl[i]);
+                free(cl);
+                cl = NULL;
+            }
+        }
+        if(game.g_state!= STATE_START_TO_RENDERER && game.g_state!=STATE_ITERATE){
+            renderer_game_background(renderer,&GRID_COLOR_SLOW,&game,game.grid_width,game.grid_height,game.slice_size);
+        }
         SDL_RenderPresent(renderer);
-        cnt_cl++;
-        if (cnt_cl % 2 != 0)
-        {
-            cl = nx;
-        }
-        else if (cnt_cl % 2 == 0)
-        {
-            for (int i = 0; i < 35; i++)
-                free(cl[i]);
-            free(cl);
-            cl = NULL;
-        }
+
         for (int i = 0; i < game.game_pace; i++)
         { // 100 stands for game speed
             SDL_Delay(SCREEN_REFRESH_INTERVAL);
             SDL_Event event;
-            while (SDL_PollEvent(&event))
+        while (SDL_PollEvent(&event))
+        {
+            switch (event.type)
             {
-                switch (event.type)
+            case SDL_QUIT:
+                game.g_state = STATE_QUIT;
+                break;
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.scancode)
                 {
-                case SDL_QUIT:
-                    game.g_state = STATE_QUIT;
+                case SDL_SCANCODE_W:
+                case SDL_SCANCODE_UP:
+                     game.g_state = STATE_START_TO_RENDERER;
                     break;
+                
+                case SDL_SCANCODE_S:
+                case SDL_SCANCODE_DOWN:
+                     game.g_state = STATE_RUN;
+                break;
                 }
+                break;
             }
+        }
         }
     }
     // if (!cl)
