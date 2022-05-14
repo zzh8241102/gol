@@ -53,6 +53,10 @@ void renderer_next_layer(SDL_Renderer *renderer, int **grid_matrix, int grid_wid
     }
 }
 
+void renderer_clicked(int **grid_matrix,SDL_Renderer *renderer,game_state *game,int grid_width, int grid_height,int slice, int x, int y){
+    
+}
+
 void renderer_game(int **grid_matrix,SDL_Renderer *renderer, SDL_Color *color, game_state *game,int grid_width, int grid_height, int slice){
     renderer_game_background(renderer,color,game,grid_width,grid_height,slice);
     renderer_next_layer(renderer,grid_matrix,grid_width,grid_height,slice,game);

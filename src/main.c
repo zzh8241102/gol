@@ -69,6 +69,7 @@ int main(void)
     {
         nx[m] = (int *)malloc(game.grid_width * sizeof(int));
     }
+    
     for (int i = 0; i < game.grid_height; i++)
     {
         for (int j = 0; j < game.grid_width; j++)
@@ -131,6 +132,7 @@ int main(void)
     SDL_DisplayMode displayMode;
     SDL_GetWindowDisplayMode(window, &displayMode);
     uint16_t SCREEN_REFRESH_INTERVAL = (uint16_t)(1000.0 / displayMode.refresh_rate - 1);
+
     // int data = 10;
 
     while (game.g_state != STATE_QUIT)
@@ -156,6 +158,20 @@ int main(void)
                     break;
                 }
                 break;
+            case SDL_MOUSEBUTTONDOWN:
+                if(game.g_state!=STATE_START_TO_RENDERER||game.g_state!= STATE_ITERATE){
+                    game.game_clicked_x = (int)event.button.x;
+                    game.game_clicked_y = (int)event.button.y;
+                    int grid_x = (int)game.game_clicked_x/game.slice_size;
+                    int grid_y = (int)game.game_clicked_y/game.slice_size;
+                    if(*(*(nx + grid_y) + grid_x) != 1)
+                    {*(*(nx + grid_y) + grid_x) = 1;
+                    }
+                    else if(*(*(nx + grid_y) + grid_x) == 1){
+                    *(*(nx + grid_y) + grid_x) = 0;
+                    }
+                }
+
         
             }
         }
@@ -168,11 +184,11 @@ int main(void)
             nx = calculate_the_next_layer(nx, game.grid_width, game.grid_height);
             renderer_game(nx, renderer, &GRID_COLOR_SLOW, &game, game.grid_width, game.grid_height, game.slice_size);
             cnt_cl++;
-            if (cnt_cl % 2 != 0)
+            if (cnt_cl % MEMORY_DIV != 0)
             {
                 cl = nx;
             }
-            else if (cnt_cl % 2 == 0)
+            else if (cnt_cl % MEMORY_DIV == 0)
             {
                 for (int i = 0; i < game.grid_height; i++)
                     free(cl[i]);
@@ -184,7 +200,8 @@ int main(void)
             renderer_game(nx, renderer, &GRID_COLOR_SLOW, &game, game.grid_width, game.grid_height, game.slice_size);
         }
         if(game.g_state!= STATE_START_TO_RENDERER && game.g_state!=STATE_ITERATE){
-            renderer_game_background(renderer,&GRID_COLOR_SLOW,&game,game.grid_width,game.grid_height,game.slice_size);
+             renderer_game(nx, renderer, &GRID_COLOR_SLOW, &game, game.grid_width, game.grid_height, game.slice_size);
+            // renderer_game_background(renderer,&GRID_COLOR_SLOW,&game,game.grid_width,game.grid_height,game.slice_size);
         }
         SDL_RenderPresent(renderer);
 
@@ -213,6 +230,19 @@ int main(void)
                 break;
                 }
                 break;
+                case SDL_MOUSEBUTTONDOWN:
+                if(game.g_state!=STATE_START_TO_RENDERER||game.g_state!= STATE_ITERATE){
+                    game.game_clicked_x = (int)event.button.x;
+                    game.game_clicked_y = (int)event.button.y;
+                    int grid_x = (int)game.game_clicked_x/game.slice_size;
+                    int grid_y = (int)game.game_clicked_y/game.slice_size;
+                    if(*(*(nx + grid_y) + grid_x) != 1)
+                    {*(*(nx + grid_y) + grid_x) = 1;
+                    }
+                    else if(*(*(nx + grid_y) + grid_x) == 1){
+                    *(*(nx + grid_y) + grid_x) = 0;
+                    }
+                }
             }
         }
         }

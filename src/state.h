@@ -7,8 +7,7 @@
 #define GRID_HEIGHT 700
 #define SMALL_SLICE 20
 #define BIGGER_SLICE 10
-
-
+#define MEMORY_DIV 2
 // Small size /20
 // Bigger size /10
 
@@ -17,6 +16,8 @@
 #define STATE_START_TO_RENDERER 2
 #define STATE_TO_RENDERER_BG 3
 #define STATE_ITERATE 4
+#define FILE_MODE 1
+
 
 
 // fake data to test before implement io operation
@@ -33,7 +34,10 @@ typedef struct _state
     int **grid;
     int terminator;
     int game_pace;
-
+    int game_mode;
+    int game_clicked_x;
+    int game_clicked_y;
+    
 } game_state;
 
 
