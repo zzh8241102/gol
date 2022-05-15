@@ -34,6 +34,9 @@ int main(void)
         return EXIT_FAILURE;
     }
 
+    SDL_Surface* surface = IMG_Load("resources/logo.png");
+    SDL_SetWindowIcon(window, surface);
+
     // create a renderer
 
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1,
@@ -76,54 +79,54 @@ int main(void)
         {
             *(*(nx + i) + j) = 0;
         }
-        *(*(nx + 1) + 25) = 1;
-        *(*(nx + 2) + 25) = 1;
-        *(*(nx + 3) + 25) = 1;
-        *(*(nx + 1) + 24) = 1;
-        *(*(nx + 10) + 32) = 1;
-        *(*(nx + 10) + 33) = 1;
-        *(*(nx + 11) + 32) = 1;
-        *(*(nx + 21) + 32) = 1;
-        *(*(nx + 21) + 33) = 1;
-        *(*(nx + 21) + 34) = 1;
-        *(*(nx + 24) + 32) = 1;
-        *(*(nx + 25) + 33) = 1;
-        *(*(nx + 21) + 34) = 1;
-        *(*(nx + 24) + 32) = 1;
-        *(*(nx + 31) + 32) = 1;
-        *(*(nx + 29) + 33) = 1;
-        *(*(nx + 31) + 34) = 1;
-        *(*(nx + 12) + 33) = 1;
-        *(*(nx + 13) + 32) = 1;
-        *(*(nx + 14) + 32) = 1;
-        *(*(nx + 12) + 33) = 1;
-        *(*(nx + 12) + 32) = 1;
-        *(*(nx + 13) + 34) = 1;
-        *(*(nx + 12) + 34) = 1;
-        *(*(nx + 17) + 32) = 1;
-        *(*(nx + 19) + 32) = 1;
-        *(*(nx + 16) + 33) = 1;
-        *(*(nx + 18) + 32) = 1;
-        *(*(nx + 21) + 11) = 1;
-        *(*(nx + 21) + 12) = 1;
-        *(*(nx + 21) + 6) = 1;
-        *(*(nx + 21) + 7) = 1;
-        *(*(nx + 21) + 8) = 1;
-        *(*(nx + 20) + 8) = 1;
-        *(*(nx + 12) + 34) = 1;
-        *(*(nx + 17) + 32) = 1;
-        *(*(nx + 19) + 32) = 1;
-        *(*(nx + 8) + 7) = 1;
-        *(*(nx + 3) + 7) = 1;
-        *(*(nx + 3) + 6) = 1;
-        *(*(nx + 3) + 8) = 1;
-        *(*(nx + 5) + 7) = 1;
-        *(*(nx + 4) + 6) = 1;
-        *(*(nx + 21) + 21) = 1;
-        *(*(nx + 22) + 22) = 1;
-        *(*(nx + 22) + 23) = 1;
-        *(*(nx + 21) + 23) = 1;
-        *(*(nx + 20) + 23) = 1;
+        // *(*(nx + 1) + 25) = 1;
+        // *(*(nx + 2) + 25) = 1;
+        // *(*(nx + 3) + 25) = 1;
+        // *(*(nx + 1) + 24) = 1;
+        // *(*(nx + 10) + 32) = 1;
+        // *(*(nx + 10) + 33) = 1;
+        // *(*(nx + 11) + 32) = 1;
+        // *(*(nx + 21) + 32) = 1;
+        // *(*(nx + 21) + 33) = 1;
+        // *(*(nx + 21) + 34) = 1;
+        // *(*(nx + 24) + 32) = 1;
+        // *(*(nx + 25) + 33) = 1;
+        // *(*(nx + 21) + 34) = 1;
+        // *(*(nx + 24) + 32) = 1;
+        // *(*(nx + 31) + 32) = 1;
+        // *(*(nx + 29) + 33) = 1;
+        // *(*(nx + 31) + 34) = 1;
+        // *(*(nx + 12) + 33) = 1;
+        // *(*(nx + 13) + 32) = 1;
+        // *(*(nx + 14) + 32) = 1;
+        // *(*(nx + 12) + 33) = 1;
+        // *(*(nx + 12) + 32) = 1;
+        // *(*(nx + 13) + 34) = 1;
+        // *(*(nx + 12) + 34) = 1;
+        // *(*(nx + 17) + 32) = 1;
+        // *(*(nx + 19) + 32) = 1;
+        // *(*(nx + 16) + 33) = 1;
+        // *(*(nx + 18) + 32) = 1;
+        // *(*(nx + 21) + 11) = 1;
+        // *(*(nx + 21) + 12) = 1;
+        // *(*(nx + 21) + 6) = 1;
+        // *(*(nx + 21) + 7) = 1;
+        // *(*(nx + 21) + 8) = 1;
+        // *(*(nx + 20) + 8) = 1;
+        // *(*(nx + 12) + 34) = 1;
+        // *(*(nx + 17) + 32) = 1;
+        // *(*(nx + 19) + 32) = 1;
+        // *(*(nx + 8) + 7) = 1;
+        // *(*(nx + 3) + 7) = 1;
+        // *(*(nx + 3) + 6) = 1;
+        // *(*(nx + 3) + 8) = 1;
+        // *(*(nx + 5) + 7) = 1;
+        // *(*(nx + 4) + 6) = 1;
+        // *(*(nx + 21) + 21) = 1;
+        // *(*(nx + 22) + 22) = 1;
+        // *(*(nx + 22) + 23) = 1;
+        // *(*(nx + 21) + 23) = 1;
+        // *(*(nx + 20) + 23) = 1;
     }
 
     int **cl = NULL;
@@ -137,44 +140,6 @@ int main(void)
 
     while (game.g_state != STATE_QUIT)
     {
-        SDL_Event event;
-        while (SDL_PollEvent(&event))
-        {
-            switch (event.type)
-            {
-            case SDL_QUIT:
-                game.g_state = STATE_QUIT;
-                break;
-            case SDL_KEYDOWN:
-                switch (event.key.keysym.scancode)
-                {
-                case SDL_SCANCODE_W:
-                case SDL_SCANCODE_UP:
-                     game.g_state = STATE_START_TO_RENDERER;
-                    break;
-                case SDL_SCANCODE_S:
-                case SDL_SCANCODE_DOWN:
-                     game.g_state = STATE_ITERATE;
-                    break;
-                }
-                break;
-            case SDL_MOUSEBUTTONDOWN:
-                if(game.g_state!=STATE_START_TO_RENDERER||game.g_state!= STATE_ITERATE){
-                    game.game_clicked_x = (int)event.button.x;
-                    game.game_clicked_y = (int)event.button.y;
-                    int grid_x = (int)game.game_clicked_x/game.slice_size;
-                    int grid_y = (int)game.game_clicked_y/game.slice_size;
-                    if(*(*(nx + grid_y) + grid_x) != 1)
-                    {*(*(nx + grid_y) + grid_x) = 1;
-                    }
-                    else if(*(*(nx + grid_y) + grid_x) == 1){
-                    *(*(nx + grid_y) + grid_x) = 0;
-                    }
-                }
-
-        
-            }
-        }
         /*renderer --> An init render by parser, then listen for the click on the start button && end button also can acclrt(NOTICE THE PROIR OF PARSER OR LISTEN) -> STOP is used to end the game quickly
          */
         SDL_SetRenderDrawColor(renderer, 119, 136, 153, 255);
@@ -207,7 +172,7 @@ int main(void)
 
         for (int i = 0; i < game.game_pace; i++)
         { 
-            SDL_Delay(SCREEN_REFRESH_INTERVAL);
+            SDL_Delay(SCREEN_REFRESH_INTERVAL/5);
             SDL_Event event;
         while (SDL_PollEvent(&event))
         {

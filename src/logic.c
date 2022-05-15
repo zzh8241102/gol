@@ -11,7 +11,7 @@
 // To do: with side effects, modify the array parsed by the parser
 int **calculate_the_next_layer(int **grid_matrix, int grid_width, int grid_height)
 {
-    
+    // reversed x,y 
     // int nx[grid_height][grid_height];
     int **nx;
     nx = (int **)malloc(grid_height * sizeof(int *));
@@ -75,10 +75,6 @@ int **calculate_the_next_layer(int **grid_matrix, int grid_width, int grid_heigh
     return nx;
 }
 
-int modify_the_layer(int **grid_matrix, int grid_width, int grid_height)
-{
-    return -1;
-}
 
 int judge_final_state(int **grid_matrix,game_state game)
 {
