@@ -37,7 +37,7 @@ typedef struct _state
     int game_mode;
     int game_clicked_x;
     int game_clicked_y;
-    
+    int game_epoch;
 } game_state;
 
 

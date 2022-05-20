@@ -10,7 +10,7 @@ OBJ = $(SRC_FILES:.c=.o)
 INCLUDE_PATHS = -Iinclude
 LIBRARY_PATHS = -L/opt/homebrew/lib
 COMPIER_FLAGS = -std=c99 -Wall -g
-LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_gfx
+LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_gfx -lSDL2_ttf
 
 # all:
 # 	$(cc) $(COMPIER_FLAGS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(LINKER_FLAGS) $(SRC_FILES) -o $(BUILD_DIR)$(EXE)
