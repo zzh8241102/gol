@@ -19,6 +19,7 @@
 #define STATE_ITERATE 4
 #define STATE_ONE_STEP 5
 #define FILE_MODE 1
+#define CLICK_MODE 2
 
 
 

@@ -11,9 +11,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <stdlib.h>
 
-// Advanced ->playback
-
-int main()
+int main(int argc, char **argv)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
@@ -72,15 +70,36 @@ int main()
 
     char buffer[200];
     game.is_inited = 0;
-    FILE *f = fopen("io_files/game.config", "r");
-    if (NULL == f)
+    if (argc == 2)
     {
-        perror("fopen return NULL");
+        FILE *f = fopen(argv[1], "r");
+        if (NULL == f)
+        {
+            // perror("fopen return NULL");
+            printf("invalid file, you will start the game with click mode.\n");
+            init_without_file(&game);
+            game.game_mode = CLICK_MODE;
+        }
+        game.game_mode = FILE_MODE;
+        if (game.game_mode != CLICK_MODE)
+        {
+            while (fgets(buffer, sizeof(buffer), f))
+            {
+                file_parser_init(buffer, &game);
+            }
+        }
     }
-     while (fgets(buffer, sizeof(buffer), f)) {
-        file_parser_init(buffer,&game);
+    if (argc == 1)
+    {
+        init_without_file(&game);
+        game.game_mode = CLICK_MODE;
     }
-    fclose(f);
+    if (argc != 1 && argc != 2)
+    {
+        printf("invalid file, you will start the game with click mode.\n");
+        init_without_file(&game);
+        game.game_mode = CLICK_MODE;
+    }
     int **cl = NULL;
     int cnt_cl = 0;
     // Event loop
@@ -141,6 +160,7 @@ int main()
                 switch (event.type)
                 {
                 case SDL_QUIT:
+                    write_result(&game);
                     game.g_state = STATE_QUIT;
                     break;
                 case SDL_KEYDOWN:
@@ -178,7 +198,7 @@ int main()
                             }
                         }
                     }
-                    if (event.button.x >= 808 && event.button.x <= 928 && event.button.y >= 708 && event.button.y <= 763&&game.g_state!=STATE_START_TO_RENDERER)
+                    if (event.button.x >= 808 && event.button.x <= 928 && event.button.y >= 708 && event.button.y <= 763 && game.g_state != STATE_START_TO_RENDERER)
                     {
                         game.g_state = STATE_ONE_STEP;
                     }

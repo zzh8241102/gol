@@ -76,11 +76,5 @@ int **calculate_the_next_layer(int **grid_matrix, int grid_width, int grid_heigh
 }
 
 
-int judge_final_state(int **grid_matrix,game_state game)
-{
-    return -1;
-}
 
-int format_result(int **grid_matrix,game_state game){
 
-}
