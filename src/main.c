@@ -71,10 +71,11 @@ int main(int argc, char **argv)
     char buffer[200];
     game.is_inited = 0;
     if (argc == 2)
-    {   char tp[50];
-        // strcpy(tp,argv[1])
-        FILE *f = fopen("./io_files/game.config", "r");
-        if (f==NULL)
+    {
+        char tp[50];
+        strcpy(tp, argv[1]);
+        FILE *f = fopen(tp, "r");
+        if (f == NULL)
         {
             // perror("fopen return NULL");
             printf("invalid file, you will start the game with click mode.\n");
@@ -82,15 +83,11 @@ int main(int argc, char **argv)
             init_without_file(&game);
             game.game_mode = CLICK_MODE;
         }
-        game.game_mode = FILE_MODE;
-        if (game.game_mode != CLICK_MODE)
+        else
         {
             while (fgets(buffer, sizeof(buffer), f))
             {
                 file_parser_init(buffer, &game);
-                printf("%d\n",game.game_pace);
-                printf("%d\n",game.init_x);
-                printf("%d\n",game.grid_height);
             }
         }
     }
