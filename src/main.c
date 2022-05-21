@@ -161,7 +161,7 @@ int main(void)
         SDL_RenderClear(renderer);
         if (game.g_state == STATE_START_TO_RENDERER)
         {
-            renderer_text(renderer,&game,font,font_instrc);
+            renderer_text(renderer, &game, font, font_instrc);
             game.game_epoch += 1;
             nx = calculate_the_next_layer(nx, game.grid_width, game.grid_height);
             renderer_game(nx, renderer, &GRID_COLOR_SLOW, &game);
@@ -181,13 +181,21 @@ int main(void)
         if (game.g_state == STATE_ITERATE)
         {
             renderer_game(nx, renderer, &GRID_COLOR_SLOW, &game);
-            renderer_text(renderer,&game,font,font_instrc);
+            renderer_text(renderer, &game, font, font_instrc);
         }
         if (game.g_state != STATE_START_TO_RENDERER && game.g_state != STATE_ITERATE)
         {
             renderer_game(nx, renderer, &GRID_COLOR_SLOW, &game);
             // renderer_game_background(renderer,&GRID_COLOR_SLOW,&game,game.grid_width,game.grid_height,game.slice_size);
-            renderer_text(renderer,&game,font,font_instrc);
+            renderer_text(renderer, &game, font, font_instrc);
+        }
+        if (game.g_state == STATE_ONE_STEP && game.g_state != STATE_START_TO_RENDERER)
+        {
+            game.game_epoch += 1;
+            renderer_text(renderer, &game, font, font_instrc);
+            nx = calculate_the_next_layer(nx, game.grid_width, game.grid_height);
+            renderer_game(nx, renderer, &GRID_COLOR_SLOW, &game);
+            game.g_state = STATE_ITERATE;
         }
         // SDL_RenderCopy(renderer, text_texture, NULL, &text_pos);
         SDL_RenderPresent(renderer);
@@ -219,21 +227,26 @@ int main(void)
                     break;
                 case SDL_MOUSEBUTTONDOWN:
                     if (game.g_state != STATE_START_TO_RENDERER)
-                    {   
-                        if(event.button.x>=0&&event.button.y<=700&&event.button.y>=0){
-                        game.game_clicked_x = (int)event.button.x;
-                        game.game_clicked_y = (int)event.button.y;
-                        int grid_x = (int)game.game_clicked_x / game.slice_size;
-                        int grid_y = (int)game.game_clicked_y / game.slice_size;
-                        if (*(*(nx + grid_y) + grid_x) != 1)
+                    {
+                        if (event.button.x >= 0 && event.button.y <= GRID_HEIGHT && event.button.y >= 0 && event.button.x <= WINDOW_WIDTH)
                         {
-                            *(*(nx + grid_y) + grid_x) = 1;
-                        }
-                        else if (*(*(nx + grid_y) + grid_x) == 1)
-                        {
-                            *(*(nx + grid_y) + grid_x) = 0;
+                            game.game_clicked_x = (int)event.button.x;
+                            game.game_clicked_y = (int)event.button.y;
+                            int grid_x = (int)game.game_clicked_x / game.slice_size;
+                            int grid_y = (int)game.game_clicked_y / game.slice_size;
+                            if (*(*(nx + grid_y) + grid_x) != 1)
+                            {
+                                *(*(nx + grid_y) + grid_x) = 1;
+                            }
+                            else if (*(*(nx + grid_y) + grid_x) == 1)
+                            {
+                                *(*(nx + grid_y) + grid_x) = 0;
+                            }
                         }
                     }
+                    if (event.button.x >= 808 && event.button.x <= 928 && event.button.y >= 708 && event.button.y <= 763)
+                    {
+                        game.g_state = STATE_ONE_STEP;
                     }
                 }
             }

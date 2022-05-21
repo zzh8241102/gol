@@ -16,6 +16,7 @@
 #define STATE_START_TO_RENDERER 2
 #define STATE_TO_RENDERER_BG 3
 #define STATE_ITERATE 4
+#define STATE_ONE_STEP 5
 #define FILE_MODE 1
 
 
