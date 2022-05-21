@@ -84,10 +84,17 @@ int main(int argc, char **argv)
             game.game_mode = CLICK_MODE;
         }
         else
-        {
+        {   char ch =fgetc(f);
+            if(strcmp(tp,"io_files/game.config")==0&&ch!=EOF){
             while (fgets(buffer, sizeof(buffer), f))
             {
                 file_parser_init(buffer, &game);
+            }
+            } else{
+            printf("invalid file, you will start the game with click mode.\n");
+            // fclose(f);
+            init_without_file(&game);
+            game.game_mode = CLICK_MODE;
             }
         }
     }
