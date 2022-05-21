@@ -51,7 +51,7 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
     }
     TTF_Font *font = TTF_OpenFont("./font/Blox2.ttf", FONT_SIZE);
-    TTF_Font *font_instrc = TTF_OpenFont("./font/Koulen-Regular.ttf", FONT_SIZE);
+    TTF_Font *font_instrc = TTF_OpenFont("./font/Koulen-Regular.ttf", 23);
 
     // Initialize the game state && structures
 
@@ -135,12 +135,12 @@ int main(int argc, char **argv)
         }
         if (game.g_state == STATE_ITERATE)
         {
-            renderer_game(game.grid, renderer, &GRID_COLOR_QUICK, &game);
+            renderer_game(game.grid, renderer, &GRID_COLOR_SLOW, &game);
             renderer_text(renderer, &game, font, font_instrc);
         }
         if (game.g_state != STATE_START_TO_RENDERER && game.g_state != STATE_ITERATE)
         {
-            renderer_game(game.grid, renderer, &GRID_COLOR_QUICK, &game);
+            renderer_game(game.grid, renderer, &GRID_COLOR_SLOW, &game);
             renderer_text(renderer, &game, font, font_instrc);
         }
         if (game.g_state == STATE_ONE_STEP && game.g_state != STATE_START_TO_RENDERER)
@@ -148,7 +148,7 @@ int main(int argc, char **argv)
             game.game_epoch += 1;
             renderer_text(renderer, &game, font, font_instrc);
             game.grid = calculate_the_next_layer(game.grid, game.grid_width, game.grid_height);
-            renderer_game(game.grid, renderer, &GRID_COLOR_QUICK, &game);
+            renderer_game(game.grid, renderer, &GRID_COLOR_SLOW, &game);
             game.g_state = STATE_ITERATE;
         }
         SDL_RenderPresent(renderer);
@@ -175,6 +175,16 @@ int main(int argc, char **argv)
                     case SDL_SCANCODE_S:
                     case SDL_SCANCODE_DOWN:
                         game.g_state = STATE_ITERATE;
+                        break;
+                    case SDL_SCANCODE_B:
+                        if(game.g_state==STATE_ITERATE&&game.game_pace<=80){
+                            game.game_pace+=10;
+                        }
+                        break;
+                    case SDL_SCANCODE_X:
+                        if(game.g_state==STATE_ITERATE&&game.game_pace>=20){
+                            game.game_pace-=10;
+                        }
                         break;
                     }
                     break;

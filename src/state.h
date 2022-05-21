@@ -1,6 +1,6 @@
 #ifndef STATE_HEADER_H
 #define STATE_HEADER_H
-
+#include <SDL2/SDL.h>
 #define WINDOW_WIDTH 1000
 #define WINDOW_HEIGHT 768
 #define MENU_HEIGHT 68
@@ -18,6 +18,7 @@
 #define STATE_TO_RENDERER_BG 3
 #define STATE_ITERATE 4
 #define STATE_ONE_STEP 5
+#define STATE_RENDER_WELCOME 6
 #define FILE_MODE 0
 #define CLICK_MODE 2
 
@@ -48,6 +49,10 @@ typedef struct _state
 } game_state;
 
 
+typedef struct _color
+{
+SDL_Color *grid_color;
 
+}color_grid;
 
 #endif
