@@ -13,7 +13,7 @@
 
 // Advanced ->playback
 
-int main(void)
+int main()
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
@@ -70,12 +70,6 @@ int main(void)
                                   .g = 187,
                                   .b = 255};
 
-    // int **nx;
-    // nx = (int **)malloc(game.grid_height * sizeof(int *));
-    // for (int m = 0; m < game.grid_height; m++)
-    // {
-    //     nx[m] = (int *)malloc(game.grid_width * sizeof(int));
-    // }
     char buffer[200];
     game.is_inited = 0;
     FILE *f = fopen("io_files/game.config", "r");
@@ -86,17 +80,13 @@ int main(void)
      while (fgets(buffer, sizeof(buffer), f)) {
         file_parser_init(buffer,&game);
     }
-
-
+    fclose(f);
     int **cl = NULL;
     int cnt_cl = 0;
     // Event loop
     SDL_DisplayMode displayMode;
     SDL_GetWindowDisplayMode(window, &displayMode);
     uint16_t SCREEN_REFRESH_INTERVAL = (uint16_t)(1000.0 / displayMode.refresh_rate - 1);
-
-    // int data = 10;
-
     while (game.g_state != STATE_QUIT)
     {
         /*renderer --> An init render by parser, then listen for the click on the start button && end button also can acclrt(NOTICE THE PROIR OF PARSER OR LISTEN) -> STOP is used to end the game quickly
@@ -177,8 +167,6 @@ int main(void)
                             int grid_y = (int)game.game_clicked_y / game.slice_size;
                             if (grid_y < GRID_HEIGHT / game.slice_size && grid_x < WINDOW_WIDTH / game.slice_size)
                             {
-                                printf("(%d,%d)\n", event.button.x, event.button.y);
-                                printf("(%d,%d)\n",grid_x,grid_y);
                                 if (*(*(game.grid + grid_y) + grid_x) != 1)
                                 {
                                     *(*(game.grid + grid_y) + grid_x) = 1;
