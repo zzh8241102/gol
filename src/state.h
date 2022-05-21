@@ -8,6 +8,7 @@
 #define SMALL_SLICE 20
 #define BIGGER_SLICE 10
 #define MEMORY_DIV 2
+#define FONT_SIZE 30
 // Small size /20
 // Bigger size /10
 
@@ -39,6 +40,10 @@ typedef struct _state
     int game_clicked_x;
     int game_clicked_y;
     int game_epoch;
+    char grid_notion[30];
+    int init_x;
+    int init_y;
+    int is_inited;
 } game_state;
 
 

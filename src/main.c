@@ -7,13 +7,12 @@
 #include "state.h"
 #include "renderer_game.h"
 #include "logic.h"
+#include "io.h"
 #include <SDL2/SDL_ttf.h>
 #include <stdlib.h>
 
-// Advanced ->interactive
 // Advanced ->playback
-// single step
-SDL_Color fg = {212, 227, 240};
+
 int main(void)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -22,7 +21,6 @@ int main(void)
         return EXIT_FAILURE;
     }
     // Create window
-
     SDL_Window *window = SDL_CreateWindow("Conway's Game of Life",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
@@ -35,8 +33,8 @@ int main(void)
         fprintf(stderr, "Cannot create window due to %s\n", SDL_GetError());
         return EXIT_FAILURE;
     }
-
-    SDL_Surface *surface = IMG_Load("resources/logo.png");
+    //
+    SDL_Surface *surface = IMG_Load("resources/icon.png");
     SDL_SetWindowIcon(window, surface);
 
     // create a renderer
@@ -52,15 +50,10 @@ int main(void)
     if (TTF_Init() == -1)
     {
         printf("TTF_Init: %s\n", TTF_GetError());
-        exit(2);
+        return EXIT_FAILURE;
     }
-    TTF_Font *font = TTF_OpenFont("./font/Blox2.ttf", 30);
-    TTF_Font *font_instrc = TTF_OpenFont("./font/Koulen-Regular.ttf", 30);
-    // SDL_Surface *text_surface = TTF_RenderText_Solid(font, "generation 1", fg);
-    // SDL_Texture *text_texture = SDL_CreateTextureFromSurface(renderer, text_surface);
-    // SDL_Rect text_pos = {.x = 50, .y = 720, .w = text_surface->w, .h = text_surface->h};
-    // SDL_FreeSurface(text_surface);
-    // TTF_CloseFont(font);
+    TTF_Font *font = TTF_OpenFont("./font/Blox2.ttf", FONT_SIZE);
+    TTF_Font *font_instrc = TTF_OpenFont("./font/Koulen-Regular.ttf", FONT_SIZE);
 
     // Initialize the game state && structures
 
@@ -68,10 +61,6 @@ int main(void)
 
     game_state game;
     game.g_state = STATE_RUN;
-    game.grid_height = 35;
-    game.grid_width = 50;
-    game.game_pace = 20;
-    game.slice_size = 20;
     game.game_epoch = 0;
     SDL_Color GRID_COLOR_SLOW = {.r = 255,
                                  .g = 255,
@@ -81,68 +70,23 @@ int main(void)
                                   .g = 187,
                                   .b = 255};
 
-    int **nx;
-    nx = (int **)malloc(game.grid_height * sizeof(int *));
-    for (int m = 0; m < game.grid_height; m++)
+    // int **nx;
+    // nx = (int **)malloc(game.grid_height * sizeof(int *));
+    // for (int m = 0; m < game.grid_height; m++)
+    // {
+    //     nx[m] = (int *)malloc(game.grid_width * sizeof(int));
+    // }
+    char buffer[200];
+    game.is_inited = 0;
+    FILE *f = fopen("io_files/game.config", "r");
+    if (NULL == f)
     {
-        nx[m] = (int *)malloc(game.grid_width * sizeof(int));
+        perror("fopen return NULL");
+    }
+     while (fgets(buffer, sizeof(buffer), f)) {
+        file_parser_init(buffer,&game);
     }
 
-    for (int i = 0; i < game.grid_height; i++)
-    {
-        for (int j = 0; j < game.grid_width; j++)
-        {
-            *(*(nx + i) + j) = 0;
-        }
-        *(*(nx + 1) + 3) = 1;
-        *(*(nx + 2) + 25) = 1;
-        *(*(nx + 3) + 25) = 1;
-        *(*(nx + 1) + 24) = 1;
-        *(*(nx + 10) + 32) = 1;
-        *(*(nx + 10) + 33) = 1;
-        *(*(nx + 11) + 32) = 1;
-        *(*(nx + 21) + 32) = 1;
-        *(*(nx + 21) + 33) = 1;
-        *(*(nx + 21) + 34) = 1;
-        *(*(nx + 24) + 32) = 1;
-        *(*(nx + 25) + 33) = 1;
-        *(*(nx + 21) + 34) = 1;
-        *(*(nx + 24) + 32) = 1;
-        *(*(nx + 31) + 32) = 1;
-        *(*(nx + 29) + 33) = 1;
-        *(*(nx + 31) + 34) = 1;
-        *(*(nx + 12) + 33) = 1;
-        *(*(nx + 13) + 32) = 1;
-        *(*(nx + 14) + 32) = 1;
-        *(*(nx + 12) + 33) = 1;
-        *(*(nx + 12) + 32) = 1;
-        *(*(nx + 13) + 34) = 1;
-        *(*(nx + 12) + 34) = 1;
-        *(*(nx + 17) + 32) = 1;
-        *(*(nx + 19) + 32) = 1;
-        *(*(nx + 16) + 33) = 1;
-        *(*(nx + 18) + 32) = 1;
-        *(*(nx + 21) + 11) = 1;
-        *(*(nx + 21) + 12) = 1;
-        *(*(nx + 21) + 6) = 1;
-        *(*(nx + 21) + 7) = 1;
-        *(*(nx + 21) + 8) = 1;
-        *(*(nx + 20) + 8) = 1;
-        *(*(nx + 12) + 34) = 1;
-        *(*(nx + 17) + 32) = 1;
-        *(*(nx + 19) + 32) = 1;
-        *(*(nx + 8) + 7) = 1;
-        *(*(nx + 3) + 7) = 1;
-        *(*(nx + 3) + 6) = 1;
-        *(*(nx + 3) + 8) = 1;
-        *(*(nx + 5) + 7) = 1;
-        *(*(nx + 4) + 6) = 1;
-        *(*(nx + 21) + 21) = 1;
-        *(*(nx + 22) + 22) = 1;
-        *(*(nx + 22) + 23) = 1;
-        *(*(nx + 21) + 23) = 1;
-        *(*(nx + 20) + 23) = 1;
-    }
 
     int **cl = NULL;
     int cnt_cl = 0;
@@ -163,12 +107,12 @@ int main(void)
         {
             renderer_text(renderer, &game, font, font_instrc);
             game.game_epoch += 1;
-            nx = calculate_the_next_layer(nx, game.grid_width, game.grid_height);
-            renderer_game(nx, renderer, &GRID_COLOR_SLOW, &game);
+            game.grid = calculate_the_next_layer(game.grid, game.grid_width, game.grid_height);
+            renderer_game(game.grid, renderer, &GRID_COLOR_QUICK, &game);
             cnt_cl++;
             if (cnt_cl % MEMORY_DIV != 0)
             {
-                cl = nx;
+                cl = game.grid;
             }
             else if (cnt_cl % MEMORY_DIV == 0)
             {
@@ -180,24 +124,22 @@ int main(void)
         }
         if (game.g_state == STATE_ITERATE)
         {
-            renderer_game(nx, renderer, &GRID_COLOR_SLOW, &game);
+            renderer_game(game.grid, renderer, &GRID_COLOR_QUICK, &game);
             renderer_text(renderer, &game, font, font_instrc);
         }
         if (game.g_state != STATE_START_TO_RENDERER && game.g_state != STATE_ITERATE)
         {
-            renderer_game(nx, renderer, &GRID_COLOR_SLOW, &game);
-            // renderer_game_background(renderer,&GRID_COLOR_SLOW,&game,game.grid_width,game.grid_height,game.slice_size);
+            renderer_game(game.grid, renderer, &GRID_COLOR_QUICK, &game);
             renderer_text(renderer, &game, font, font_instrc);
         }
         if (game.g_state == STATE_ONE_STEP && game.g_state != STATE_START_TO_RENDERER)
         {
             game.game_epoch += 1;
             renderer_text(renderer, &game, font, font_instrc);
-            nx = calculate_the_next_layer(nx, game.grid_width, game.grid_height);
-            renderer_game(nx, renderer, &GRID_COLOR_SLOW, &game);
+            game.grid = calculate_the_next_layer(game.grid, game.grid_width, game.grid_height);
+            renderer_game(game.grid, renderer, &GRID_COLOR_QUICK, &game);
             game.g_state = STATE_ITERATE;
         }
-        // SDL_RenderCopy(renderer, text_texture, NULL, &text_pos);
         SDL_RenderPresent(renderer);
 
         for (int i = 0; i < game.game_pace; i++)
@@ -218,7 +160,6 @@ int main(void)
                     case SDL_SCANCODE_UP:
                         game.g_state = STATE_START_TO_RENDERER;
                         break;
-
                     case SDL_SCANCODE_S:
                     case SDL_SCANCODE_DOWN:
                         game.g_state = STATE_ITERATE;
@@ -234,17 +175,22 @@ int main(void)
                             game.game_clicked_y = (int)event.button.y;
                             int grid_x = (int)game.game_clicked_x / game.slice_size;
                             int grid_y = (int)game.game_clicked_y / game.slice_size;
-                            if (*(*(nx + grid_y) + grid_x) != 1)
+                            if (grid_y < GRID_HEIGHT / game.slice_size && grid_x < WINDOW_WIDTH / game.slice_size)
                             {
-                                *(*(nx + grid_y) + grid_x) = 1;
-                            }
-                            else if (*(*(nx + grid_y) + grid_x) == 1)
-                            {
-                                *(*(nx + grid_y) + grid_x) = 0;
+                                printf("(%d,%d)\n", event.button.x, event.button.y);
+                                printf("(%d,%d)\n",grid_x,grid_y);
+                                if (*(*(game.grid + grid_y) + grid_x) != 1)
+                                {
+                                    *(*(game.grid + grid_y) + grid_x) = 1;
+                                }
+                                else if (*(*(game.grid + grid_y) + grid_x) == 1)
+                                {
+                                    *(*(game.grid + grid_y) + grid_x) = 0;
+                                }
                             }
                         }
                     }
-                    if (event.button.x >= 808 && event.button.x <= 928 && event.button.y >= 708 && event.button.y <= 763)
+                    if (event.button.x >= 808 && event.button.x <= 928 && event.button.y >= 708 && event.button.y <= 763&&game.g_state!=STATE_START_TO_RENDERER)
                     {
                         game.g_state = STATE_ONE_STEP;
                     }
@@ -252,13 +198,6 @@ int main(void)
             }
         }
     }
-    // if (!cl)
-    // {
-    //     for (int i = 0; i < 35; i++)
-    //         free(cl[i]);
-
-    //     free(cl);
-    // }
     TTF_CloseFont(font);
     SDL_DestroyWindow(window);
     SDL_Quit();
