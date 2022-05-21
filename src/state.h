@@ -18,7 +18,7 @@
 #define STATE_TO_RENDERER_BG 3
 #define STATE_ITERATE 4
 #define STATE_ONE_STEP 5
-#define FILE_MODE 1
+#define FILE_MODE 0
 #define CLICK_MODE 2
 
 
