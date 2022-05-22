@@ -87,7 +87,7 @@ int main(int argc, char **argv)
         {
             char ch = fgetc(f);
             if (strcmp(tp, "io_files/game.config") == 0 && ch != EOF)
-            {  
+            {
                 while (fgets(buffer, sizeof(buffer), f))
                 {
                     file_parser_init(buffer, &game);

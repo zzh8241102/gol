@@ -21,7 +21,6 @@ int file_parser_init(char *df, game_state *game)
 
     if (sscanf(df, "grid_size = %s", game->grid_notion) == 1)
     {
-        
         if (strcmp("big", game->grid_notion) == 0)
         {
             game->slice_size = BIGGER_SLICE;
