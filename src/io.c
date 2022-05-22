@@ -2,13 +2,14 @@
 #include "state.h"
 #include <string.h>
 #include <stdlib.h>
-// parse the .ini file and return a 2-d array comprise 0-1s
+// parse the .config file and return a 2-d array comprise 0-1s
 // Optional with same pre-writed model : grid
 int file_parser_init(char *df, game_state *game)
 {
     game->init_x = 0;
     game->init_y = 0;
     char tmp[100];
+    // handle different file situations
     if (sscanf(df, " %s", tmp) == EOF)
         return 0;
     if (sscanf(df, " %[#]", tmp) == 1)
@@ -23,6 +24,10 @@ int file_parser_init(char *df, game_state *game)
     {
         if (strcmp("big", game->grid_notion) == 0)
         {
+            if (game->game_pace == 0)
+            {
+                game->game_pace = 30;
+            }
             game->slice_size = BIGGER_SLICE;
             game->grid_height = GRID_HEIGHT / BIGGER_SLICE;
             game->grid_width = WINDOW_WIDTH / BIGGER_SLICE;
@@ -40,11 +45,15 @@ int file_parser_init(char *df, game_state *game)
                     *(*(game->grid + i) + j) = 0;
                 }
             }
-            
+
             return 0;
         }
         if (strcmp("small", game->grid_notion) == 0 && game->is_inited != 1)
-        {
+        {   
+            if (game->game_pace == 0)
+            {
+                game->game_pace = 30;
+            }
             game->slice_size = SMALL_SLICE;
             game->grid_height = GRID_HEIGHT / SMALL_SLICE;
             game->grid_width = WINDOW_WIDTH / SMALL_SLICE;
@@ -65,7 +74,11 @@ int file_parser_init(char *df, game_state *game)
             return 0;
         }
         else
-        {
+        {   
+            if (game->game_pace == 0)
+            {
+                game->game_pace = 30;
+            }
             game->slice_size = SMALL_SLICE;
             game->grid_height = GRID_HEIGHT / SMALL_SLICE;
             game->grid_width = WINDOW_WIDTH / SMALL_SLICE;
@@ -96,7 +109,7 @@ int file_parser_init(char *df, game_state *game)
             if (game->init_x >= game->grid_width || game->init_y >= game->grid_height || game->init_x < 0 || game->init_y < 0)
             {
                 printf("invaild input in some lines, which will have no effects on the grid.\n");
-                return 0 ;
+                return 0;
             }
             else
             {
@@ -112,20 +125,20 @@ int file_parser_init(char *df, game_state *game)
     }
     game->game_epoch = 0;
 }
-
+// CLCIK MODE for init, no need to pass argument
 void init_without_file(game_state *game)
-{  
-        game->slice_size = SMALL_SLICE;
-        game->grid_height = GRID_HEIGHT/SMALL_SLICE;
-        game->grid_width = WINDOW_WIDTH/SMALL_SLICE;
+{
+    game->slice_size = SMALL_SLICE;
+    game->grid_height = GRID_HEIGHT / SMALL_SLICE;
+    game->grid_width = WINDOW_WIDTH / SMALL_SLICE;
 
-        game->grid = (int **)malloc(game->grid_height * sizeof(int *));
-        for (int m = 0; m < game->grid_height; m++)
-        {
-            game->grid[m] = (int *)malloc(game->grid_width * sizeof(int));
-        }
-         for (int i = 0; i < game->grid_height; i++)
-        {
+    game->grid = (int **)malloc(game->grid_height * sizeof(int *));
+    for (int m = 0; m < game->grid_height; m++)
+    {
+        game->grid[m] = (int *)malloc(game->grid_width * sizeof(int));
+    }
+    for (int i = 0; i < game->grid_height; i++)
+    {
         for (int j = 0; j < game->grid_width; j++)
         {
             *(*(game->grid + i) + j) = 0;
@@ -133,7 +146,6 @@ void init_without_file(game_state *game)
     }
     game->game_epoch = 0;
     game->game_pace = 20;
-
 }
 
 // write the final result to file

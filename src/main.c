@@ -70,6 +70,8 @@ int main(int argc, char **argv)
 
     char buffer[200];
     game.is_inited = 0;
+    game.game_pace = 0;
+    // argc handling
     if (argc == 2)
     {
         char tp[50];
@@ -116,12 +118,13 @@ int main(int argc, char **argv)
     int **cl = NULL;
     int cnt_cl = 0;
     // Event loop
+    // flag to lessen the delay
     SDL_DisplayMode displayMode;
     SDL_GetWindowDisplayMode(window, &displayMode);
     uint16_t SCREEN_REFRESH_INTERVAL = (uint16_t)(1000.0 / displayMode.refresh_rate - 1);
     while (game.g_state != STATE_QUIT)
     {
-        /*renderer --> An init render by parser, then listen for the click on the start button && end button also can acclrt(NOTICE THE PROIR OF PARSER OR LISTEN) -> STOP is used to end the game quickly
+        /*renderer --> An init render by parser, then listen for the click
          */
         SDL_SetRenderDrawColor(renderer, 140, 146, 197, 123);
         SDL_RenderClear(renderer);
@@ -144,6 +147,7 @@ int main(int argc, char **argv)
                 cl = NULL;
             }
         }
+        // hold still frames
         if (game.g_state == STATE_ITERATE)
         {
             renderer_game(game.grid, renderer, &GRID_COLOR_SLOW, &game);
@@ -154,6 +158,7 @@ int main(int argc, char **argv)
             renderer_game(game.grid, renderer, &GRID_COLOR_SLOW, &game);
             renderer_text(renderer, &game, font, font_instrc);
         }
+        // one step convert
         if (game.g_state == STATE_ONE_STEP && game.g_state != STATE_START_TO_RENDERER)
         {
             game.game_epoch += 1;
@@ -223,6 +228,7 @@ int main(int argc, char **argv)
                             }
                         }
                     }
+                    // button of next
                     if (event.button.x >= 808 && event.button.x <= 928 && event.button.y >= 708 && event.button.y <= 763 && game.g_state != STATE_START_TO_RENDERER)
                     {
                         game.g_state = STATE_ONE_STEP;

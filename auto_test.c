@@ -4,16 +4,18 @@
 #include "./include/CUnit/Basic.h"
 #include "auto_test.h"
 
+// init suite settings
 static int suite_init(void)
 {
     return 0;
 }
-
+// suite clean settings
 static int suite_clean(void)
 {
     return 0;
 }
 
+// test functions for calculation in gol
 static void test_calculate(void)
 {
     int **nx;
@@ -48,6 +50,7 @@ static void test_calculate(void)
     CU_ASSERT_PTR_EQUAL(calculate_the_next_layer(nx, TEST_WIDTH_1, TEST_HEIGHT_1), calculate_the_next_layer(nx, TEST_WIDTH_1, TEST_HEIGHT_1))
     CU_ASSERT_PTR_EQUAL(calculate_the_next_layer(nx_2, TEST_WIDTH_2, TEST_HEIGHT_2), calculate_the_next_layer(nx_2, TEST_WIDTH_2, TEST_HEIGHT_2))
 }
+// test functions for config input
 static void test_IO_INPUT(void)
 {
     game_state game;
@@ -70,12 +73,13 @@ static void test_IO_INPUT(void)
     CU_ASSERT_EQUAL(file_parser_init(buf_6, &game), 0);
     CU_ASSERT_PTR_NOT_NULL(game.grid);
     init_without_file(&game);
-    CU_ASSERT_EQUAL(game.game_pace,20);
-    CU_ASSERT_EQUAL(game.grid_height,35);
-    CU_ASSERT_EQUAL(game.grid_width,50);
+    CU_ASSERT_EQUAL(game.game_pace, 20);
+    CU_ASSERT_EQUAL(game.grid_height, 35);
+    CU_ASSERT_EQUAL(game.grid_width, 50);
 
     // Test their side effects
 }
+// test functions for res output
 static void test_IO_OUTPUT(void)
 {
     game_state game;
@@ -85,30 +89,33 @@ static void test_IO_OUTPUT(void)
     // use side effects
     CU_ASSERT_NOT_EQUAL(write_result(&game), 0);
 }
-static void test_bg(void){
+
+// test functions for renderer
+static void test_bg(void)
+{
     // GUI is not visiable,so just use the logic
     int cnt_x = 0;
     int cnt_y = 0;
     game_state game;
     init_without_file(&game);
-     for (int i = 1; i < game.grid_width; i++)
+    for (int i = 1; i < game.grid_width; i++)
     {
-       cnt_x+=1;
+        cnt_x += 1;
     }
     for (int i = 1; i <= game.grid_height; i++)
     {
-        cnt_y+=1;
+        cnt_y += 1;
     }
-    CU_ASSERT_NOT_EQUAL(cnt_x,game.grid_width);
-    CU_ASSERT_EQUAL(cnt_y,game.grid_height);
+    CU_ASSERT_NOT_EQUAL(cnt_x, game.grid_width);
+    CU_ASSERT_EQUAL(cnt_y, game.grid_height);
 }
-static void test_layer(void){
+static void test_layer(void)
+{
     // GUI is not visiable,so just use the logic
     game_state game;
     init_without_file(&game);
     CU_ASSERT_PTR_NOT_NULL(game.grid);
-    CU_ASSERT_EQUAL(game.game_pace,20);
-
+    CU_ASSERT_EQUAL(game.game_pace, 20);
 }
 int main()
 {
@@ -129,13 +136,13 @@ int main()
 
     CU_pSuite pSuite = NULL;
 
-    /* initialize the CUnit test registry */
+    // init the test regisrty
     if (CUE_SUCCESS != CU_initialize_registry())
     {
         return CU_get_error();
     }
 
-    /* add a suite to the registry */
+    // add 3 suites into registry
     pSuite = CU_add_suite("suite_FOR_calculation", suite_init, suite_clean);
     if (NULL == pSuite)
     {
@@ -143,7 +150,7 @@ int main()
         return CU_get_error();
     }
 
-    /* add the tests to the suite */
+    // add test for each suites
     if ((NULL == CU_add_test(pSuite, "test_for_next_generation", test_calculate)))
     {
         CU_cleanup_registry();
@@ -183,12 +190,11 @@ int main()
         CU_cleanup_registry();
         return CU_get_error();
     }
-    /* Run all tests using the CUnit Basic interface */
+    // run test, using the frame work
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
 
-
-    /* Clean up registry and return */
+    // clean up resources
     CU_cleanup_registry();
     return CU_get_error();
 }
@@ -382,10 +388,11 @@ int write_result(game_state *game)
     FILE *fp;
     fp = fopen("./io_files/res.txt", "w");
     if (fp == NULL)
-    {   
+    {
         return -1;
     }
-    if(game->grid_height==0||game->grid_width==0){
+    if (game->grid_height == 0 || game->grid_width == 0)
+    {
         return -1;
     }
     for (int i = 0; i < game->grid_height; i++)
@@ -400,4 +407,3 @@ int write_result(game_state *game)
     }
     return 0;
 }
-

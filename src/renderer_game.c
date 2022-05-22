@@ -40,7 +40,7 @@ void renderer_next_layer(SDL_Renderer *renderer, int **grid_matrix, game_state *
         for (int j = 0; j < game->grid_width; j++)
         {
             if (*(*(grid_matrix + i) + j) == 1)
-            {
+            {   // fill the correspond point
                 SDL_SetRenderDrawColor(renderer, 255, 216, 158, SDL_ALPHA_OPAQUE);
                 SDL_Rect fillRect = {.h = game->slice_size,
                                      .w = game->slice_size,
@@ -54,21 +54,24 @@ void renderer_next_layer(SDL_Renderer *renderer, int **grid_matrix, game_state *
 }
 
 void renderer_text(SDL_Renderer *renderer, game_state *game, TTF_Font *font, TTF_Font *font_instrc)
-{
+{  
     SDL_Color color_font = {212, 227, 240};
     int _to_be_con = game->game_epoch;
-    char tmp[30] = "";
+    char tmp[100] = "";
     sprintf(tmp, "%d", _to_be_con);
     char gen[100] = "Generation ";
     strcat(gen, tmp);
+    // Generation surface
     SDL_Surface *text_surface = TTF_RenderText_Solid(font, gen, color_font);
     SDL_Texture *text_texture = SDL_CreateTextureFromSurface(renderer, text_surface);
     SDL_Rect text_pos = {.x = 50, .y = 720, .w = text_surface->w, .h = text_surface->h};
     SDL_FreeSurface(text_surface);
+    // instrc surface
     SDL_Surface *text_surface_instrc = TTF_RenderText_Solid(font_instrc, "HIT W TO START  S TO PAUSE X TO SPEED UP B TO SLOW DOWN", color_font);
     SDL_Texture *text_texture_x = SDL_CreateTextureFromSurface(renderer, text_surface_instrc);
     SDL_Rect text_pos_x = {.x = 270, .y = 715, .w = text_surface_instrc->w, .h = text_surface_instrc->h};
     SDL_FreeSurface(text_surface_instrc);
+    // button surface
     SDL_Surface *button_surface = IMG_Load("resources/button.png");
     SDL_Texture *button_texture = SDL_CreateTextureFromSurface(renderer, button_surface);
     SDL_Rect text_pos_button = {.x = 808, .y = 708, .w = button_surface->w / 5, .h = button_surface->h / 5};
@@ -81,7 +84,7 @@ void renderer_text(SDL_Renderer *renderer, game_state *game, TTF_Font *font, TTF
 }
 
 // void renderer_text_information(game_state game,SDL_Renderer *renderer,)
-
+// render background and layer
 void renderer_game(int **grid_matrix, SDL_Renderer *renderer, SDL_Color *color, game_state *game, int grid_width, int grid_height, int slice)
 {   
     renderer_game_background(renderer, color, game);
