@@ -1,0 +1,1 @@
+These are the SDL or Cunit lib files, which are complied from third party.
