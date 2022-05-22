@@ -84,17 +84,21 @@ int main(int argc, char **argv)
             game.game_mode = CLICK_MODE;
         }
         else
-        {   char ch =fgetc(f);
-            if(strcmp(tp,"io_files/game.config")==0&&ch!=EOF){
-            while (fgets(buffer, sizeof(buffer), f))
-            {
-                file_parser_init(buffer, &game);
+        {
+            char ch = fgetc(f);
+            if (strcmp(tp, "io_files/game.config") == 0 && ch != EOF)
+            {  
+                while (fgets(buffer, sizeof(buffer), f))
+                {
+                    file_parser_init(buffer, &game);
+                }
             }
-            } else{
-            printf("invalid file, you will start the game with click mode.\n");
-            // fclose(f);
-            init_without_file(&game);
-            game.game_mode = CLICK_MODE;
+            else
+            {
+                printf("invalid file, you will start the game with click mode.\n");
+                // fclose(f);
+                init_without_file(&game);
+                game.game_mode = CLICK_MODE;
             }
         }
     }
@@ -184,13 +188,15 @@ int main(int argc, char **argv)
                         game.g_state = STATE_ITERATE;
                         break;
                     case SDL_SCANCODE_B:
-                        if(game.g_state==STATE_ITERATE&&game.game_pace<=80){
-                            game.game_pace+=10;
+                        if (game.g_state == STATE_ITERATE && game.game_pace <= 80)
+                        {
+                            game.game_pace += 10;
                         }
                         break;
                     case SDL_SCANCODE_X:
-                        if(game.g_state==STATE_ITERATE&&game.game_pace>=20){
-                            game.game_pace-=10;
+                        if (game.g_state == STATE_ITERATE && game.game_pace >= 20)
+                        {
+                            game.game_pace -= 10;
                         }
                         break;
                     }
