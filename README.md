@@ -1,14 +1,42 @@
 [toc]
 
-## XJCO1921-Programming Project – Coursework2 -  conway's game of life with interactive GUI  
+## XJCO1921-Programming Project – Coursework2: Conway's Game of Life with Interactive GUI
 
-Zihan Zhou 2020110026 201487560
+**Zihan Zhou | Student ID: 2020110026 | University ID: 201487560**
 
 ### Brief Introduction
 
-This project is a retro game project written in the pure c programming language. The game is known as **Conway's Game of Life,** a 'zero player game' proposed by the famous mathematician, Conway in the 1970s. This project implements an automaton game with a **graphical user interface**(powered by the SDL graphical library), while the player can Observethe progression of evolution at **each step**, **manipulate the game process**(direct prompt or read from a verificated), **change** the game state(**START,PAUSE,SINGLE STEP CLICK,CLICK THE GRID TO TOGGLE THE STATE OF A GRID**), and **save** the game state. 
+This project revisits a classic in the realm of retro games, implemented in pure C programming language. It's an interactive version of **Conway's Game of Life**, a zero-player game conceived by the renowned mathematician John Conway in the 1970s. The essence of this project lies in its simulation of an automaton game with a **Graphical User Interface** (GUI), powered by the SDL graphical library. Players have the unique opportunity to observe the evolutionary process at **each step**, **manipulate the game progression** (either through direct input or reading from a verified file), **alter the game state** (including options like START, PAUSE, SINGLE STEP, and CLICK-TO-TOGGLE on the grid), and **save the current game state**. 
 
 ![game](./resources/game.png)
+
+### How to Run the Programme
+
+#### Game Compilation
+
+```bash
+# Navigate to the root directory of this project and execute:
+$ make 
+# Alternatively, use:
+$ make all
+# To clean up the directory, use:
+$ make clean
+# Note: Source code is located in the src directory.
+
+
+### How to Run the Programme
+
+#### Game Compilation
+
+```bash
+# Navigate to the root directory of this project and execute:
+$ make 
+# Alternatively, use:
+$ make all
+# To clean up the directory, use:
+$ make clean
+# Note: Source code is located in the src directory.
+
 
 ### How to run the progrmme
 
