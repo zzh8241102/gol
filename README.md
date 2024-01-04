@@ -1,4 +1,4 @@
-[toc]
+
 
 ## XJCO1921-Programming Project – Coursework2: Conway's Game of Life with Interactive GUI
 
